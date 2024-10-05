@@ -9,4 +9,6 @@ const f=2;
 
 const e=-1;
 
-const g=7;
+
+const g=6;
+
