@@ -1,0 +1,84 @@
+version: '3'
+services:
+
+  client:
+    build:
+      context: ./clientServer
+    container_name: client-container
+    environment:
+      - REACT_APP_SERVER=http://localhost:4000
+    ports:
+      - "3000:3000"  # Chạy trên cổng 5001 của host
+    depends_on:
+      - nodejs
+    networks:
+      - my-network
+
+
+  # testnet:
+  #   build: 
+  #     context: ./testnet
+  #   container_name: testnet-container
+  #   ports:
+  #     - "8545:8545"
+  #   networks:
+  #     - my-network
+  #   volumes:
+  #     - ganache-data:/app
+
+  ganache:
+    image: myganache # Thay thế bằng tên image của bạn
+    container_name: ganache-container
+    ports:
+      - "8545:8545" 
+    networks:
+      - my-network
+    volumes:
+      - ganache-data:/app
+      
+
+  nodejs:
+    build: 
+      context: ./server
+    container_name: nodeserver-container
+    environment:
+      - CLIENT=http://client-container:3000
+      - NEO4J=bolt://neo4j-container:7687
+      - GANACHE=http://ganache-container:8545
+    ports:
+      - "4000:4000"
+    depends_on:
+      - neo4j
+    networks:
+      - my-network
+
+  neo4j:
+    build: 
+      context: ./neo4j
+    container_name: neo4j-container
+    ports:
+      - "7474:7474"
+      - "7687:7687"
+    volumes:
+      - neo4j-data:/data
+    networks:
+      - my-network
+
+
+  
+# C:/Users/chaud/Desktop/demoDevops
+
+
+
+
+
+networks:
+  my-network:
+    driver: bridge
+
+
+volumes:
+  ganache-data:
+  ganache12345:
+    external: true
+  neo4j-data:
