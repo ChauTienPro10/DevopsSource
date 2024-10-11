@@ -10,10 +10,10 @@ WORKDIR /app
 
 
 # Mở cổng 8545 để truy cập Ganache
-EXPOSE 8545
+EXPOSE 8546
 
 # Chạy script khởi động Ganache
 # RUN echo "helliwoeld" > text.txt
 
 
-CMD ["ganache-cli", "--db", "/app"]
+CMD ["ganache-cli", "--db", "/app", "-a", "5", "-e", "100", "-p", "8546"]

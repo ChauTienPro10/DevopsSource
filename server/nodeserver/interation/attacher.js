@@ -1,7 +1,10 @@
 import Web3 from 'web3';
 import dotenv from 'dotenv';
 dotenv.config();
-const web3 = new Web3(process.env.GANACHE);
+// const web3 = new Web3(process.env.GANACHE);
+// console.log(process.env.GANACHE);
+const web3 = new Web3('http://localhost:8546');
+
 export const createAccount = async () => {
     // Tạo tài khoản mới
     const newAccount = web3.eth.accounts.create();
@@ -16,7 +19,7 @@ export const createAccount = async () => {
     return account;
   };
 
-  async function sendETH(fromAddress, privateKey, toAddress, amount) { 
+  export async function sendETH(fromAddress, privateKey, toAddress, amount) { 
     try {
       const nonce = await web3.eth.getTransactionCount(fromAddress, 'latest');
       
@@ -75,21 +78,24 @@ export const createAccount = async () => {
       console.error('Error checking contract existence:', error);
     }
   }
-  // Gọi hàm tạo tài khoản
-//   createAccount();
-getBalance("0xDDEcf5e7318E5CE706585B56134928FAa3639CA9");
 
-// sendETH("0x90AF2ccF2eEFf37fed9bBB739c45D8651504A1da","0x24571e852315cdf65274fd25fb658b001b1be62972f931b989d6ded2a96998e2"
-//     ,"0xDDEcf5e7318E5CE706585B56134928FAa3639CA9",2
-// )
-getBalance("0x90AF2ccF2eEFf37fed9bBB739c45D8651504A1da");
-checkContractExists("0x955cd7db8ee229864a41eaa1dbdb216aad225b29");
-// getBalance("0xDDEcf5e7318E5CE706585B56134928FAa3639CA9");
+  async function getAccounts() {
+    try {
+        const accounts = await web3.eth.getAccounts();
+        console.log('Các tài khoản trong Ganache:', accounts);
+    } catch (error) {
+        console.error('Có lỗi xảy ra khi lấy tài khoản:', error);
+    }
+}
+  
 
-//   Address: 0x90AF2ccF2eEFf37fed9bBB739c45D8651504A1da
-// Private Key: 0x24571e852315cdf65274fd25fb658b001b1be62972f931b989d6ded2a96998e2
-// Contract created: 0x955cd7db8ee229864a41eaa1dbdb216aad225b29
-
+getBalance('0xeE2C4D5aAFC4dD96E4B4C84f8A50AaA8683D5e10')
+getBalance('0x68A5346A5DAFBFf2f276FEbcfBc4e16ab755c1Ef')
 
 
 export default web3
+
+
+// Address: 0x58AAf963Cb390F2Af84bb0bdD1C2e9d9eac41891
+// Private Key: 0xcf8aa349a6e6e2acf65c2355720eca2c158ccb49b0ba9707daf8ce04071dceb8
+//Contract created: 0x02ee427f46242d951dfd5f0a0d24853f1ead57f4

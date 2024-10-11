@@ -1,18 +1,21 @@
 import express from 'express';
 import cors from 'cors';
-import {createAccount} from './interation/attacher.js'
+import wss, {handelMessage} from './socket.js';
+import {createAccount,sendETH} from './interation/attacher.js'
+import {WebSocket} from 'ws';
 import dotenv from 'dotenv';
 dotenv.config();
 import neo4j from 'neo4j-driver';
 const app = express();
+
 const port = 4000;
 
-const corsOptions = {
-    origin: process.env.CLIENT, // Thay đổi thành địa chỉ nguồn của bạn
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    credentials: true, // Cho phép gửi cookie
-    optionsSuccessStatus: 204, // Một số trình duyệt cũ (IE11, Edge) yêu cầu mã trạng thái này
-};
+// const corsOptions = {
+//     origin: process.env.CLIENT, // Thay đổi thành địa chỉ nguồn của bạn
+//     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+//     credentials: true, // Cho phép gửi cookie
+//     optionsSuccessStatus: 204, // Một số trình duyệt cũ (IE11, Edge) yêu cầu mã trạng thái này
+// };
 const uri = process.env.NEO4J; // Địa chỉ của Neo4j
 const user = 'neo4j'; // Tên người dùng
 const password = 'testpassword'; // Mật khẩu của bạn
@@ -23,12 +26,9 @@ const session = driver.session();
 
 app.use(cors());
 app.use(express.json());
-// Định nghĩa route cơ bản
-app.get('/', (req, res) => {
-  res.send('Hello World!');
-});
 
-// Route so sánh hai số
+
+
 app.post("/signup", async (req, res) => {
     const { username, password } = req.body;
 
@@ -95,9 +95,43 @@ app.post("/login", async (req, res) => {
     }
 });
 
+app.post("/sendETH", async (req, res) => {
+    const {from,to,amount,key}=req.body;
+    console.log(JSON.stringify({from,to,amount}))
+    try{
+        sendETH(from,key,to,amount);
+        res.status(200).json({code:1000});
+    }
+    catch{
+        res.status(500).json({code:9000});
+    }
+    
+})
+
 // Lắng nghe và khởi động server
 app.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);
+  wss.on('connection', (ws) => {
+    console.log('Client connected');
+
+    // Gửi tin nhắn chào mừng đến client khi kết nối được thiết lập
+    ws.send(JSON.stringify({ content: "Hello from server" }));
+
+    // Khi nhận được tin nhắn từ client
+    ws.on('message', (message) => {
+        console.log(`Received: ${message}`);
+
+        // Gửi tin nhắn đến tất cả các client đã kết nối
+        wss.clients.forEach((client) => {
+            // Kiểm tra nếu client sẵn sàng nhận tin nhắn
+            if (client.readyState === WebSocket.OPEN) {
+                client.send(JSON.stringify({
+                    data: handelMessage(message) // Gửi dữ liệu sau khi xử lý
+                }));
+            }
+        });
+    });
+});
 });
 
 

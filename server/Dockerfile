@@ -20,6 +20,7 @@ RUN npm install
 
 # Mở cổng 3000 để truy cập ứng dụng
 EXPOSE 4000
+EXPOSE 4001
 
 # Chạy ứng dụng
 CMD ["node", "./app.js"]

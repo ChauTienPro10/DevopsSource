@@ -9,7 +9,13 @@ export default function Login(){
         
         try{
             const response = await axios.post(`${process.env.REACT_APP_SERVER}/login`,{username,password});
-                console.log(response.data)
+                console.log(response.data.account.properties)
+                if(response.data.account){
+                    sessionStorage.setItem("username",response.data.account.properties.username);
+                    sessionStorage.setItem("address",response.data.account.properties.address);
+                    sessionStorage.setItem("key",response.data.account.properties.key);
+                }
+                console.log(sessionStorage.getItem('key'));
                 
         }
         catch(e){
