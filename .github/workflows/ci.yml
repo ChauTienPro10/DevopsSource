@@ -30,11 +30,9 @@ jobs:
 
     # Bước 3: Build Docker image bằng docker-compose
     - name: Build the Docker image
-      run: docker-compose up --build
-# Bước 3.1: 
-    - name: Stop and remove containers
-      run: |
-        docker-compose down
+      run: docker-compose --build
+    
+      
     
      # Bước 4: Gắn thẻ (tag) cho Docker image
     - name: Tag the Docker image neo4j
