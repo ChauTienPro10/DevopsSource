@@ -37,7 +37,7 @@ jobs:
      # Bước 4: Gắn thẻ (tag) cho Docker image
     - name: Tag the Docker image neo4j
       run: |
-        docker tag demodevops-neo4j ${{ secrets.DOCKER_USERNAME }}/neo4j:latest
+        docker tag devopssource-neo4j ${{ secrets.DOCKER_USERNAME }}/neo4j:latest
 
     - name: Push the Docker neo4j
       run: |
