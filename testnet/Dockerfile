@@ -7,7 +7,9 @@ RUN mkdir -p /app
 # Chỉ định thư mục làm việc
 WORKDIR /app
 
-
+# COPY start-ganache.sh ./start-ganache.sh
+# RUN chmod +x ./start-ganache.sh
+# RUN start-ganache.sh
 
 # Mở cổng 8545 để truy cập Ganache
 EXPOSE 8546

@@ -10,7 +10,7 @@ module.exports = {
     },
     testnet_docker: {
       url: "HTTP://127.0.0.1:8546",
-      accounts: ["0xcf8aa349a6e6e2acf65c2355720eca2c158ccb49b0ba9707daf8ce04071dceb8"]
+      accounts: ["0x3a2c6ec51789293325673a6824fb59f2d00d7d2a66970980629ffd6f3caff631"]
     }
   },
 };

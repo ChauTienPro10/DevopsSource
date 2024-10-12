@@ -1,31 +1,33 @@
 version: '3'
 services:
 
-  # client:
-  #   build:
-  #     context: ./clientServer
-  #   container_name: client-container
-  #   environment:
-  #     - REACT_APP_SERVER=http://localhost:4000
-  #     - REACT_APP_WEBSOCKET=ws://localhost:4001
-  #   ports:
-  #     - "3000:3000"  # Chạy trên cổng 5001 của host
-  #   depends_on:
-  #     - nodejs
-  #   networks:
-  #     - my-network
+  client:
+    build:
+      context: ./clientServer
+    image: myreactjs
+    container_name: client-container
+    environment:
+      - REACT_APP_SERVER=http://localhost:4000
+      - REACT_APP_WEBSOCKET=ws://localhost:4001
+    ports:
+      - "3000:3000"  # Chạy trên cổng 5001 của host
+    depends_on:
+      - nodejs
+    networks:
+      - my-network
 
 
-  # testnet:
-  #   build: 
-  #     context: ./testnet
-  #   container_name: testnet-container
-  #   ports:
-  #     - "8546:8546"
-  #   networks:
-  #     - my-network
-  #   volumes:
-  #     - ganache-data:/app
+  testnet:
+    build: 
+      context: ./testnet
+    image: myganache
+    container_name: testnet-container
+    ports:
+      - "8546:8546"
+    networks:
+      - my-network
+    volumes:
+      - ganache-data:/app
 
   # ganache:
   #   image: myganache # Thay thế bằng tên image của bạn
@@ -38,21 +40,22 @@ services:
   #     - ganache-data:/app
       
 
-  # nodejs:
-  #   build: 
-  #     context: ./server
-  #   container_name: nodeserver-container
-  #   environment:
-  #     - CLIENT=http://client-container:3000
-  #     - NEO4J=bolt://neo4j-container:7687
-  #     - GANACHE=http://ganache-container:8546
-  #   ports:
-  #     - "4000:4000"
-  #     - "4001:4001"
-  #   depends_on:
-  #     - neo4j
-  #   networks:
-  #     - my-network
+  nodejs:
+    build: 
+      context: ./server
+    image: mynodejs
+    container_name: nodeserver-container
+    environment:
+      - CLIENT=http://client-container:3000
+      - NEO4J=bolt://neo4j-container:7687
+      - GANACHE=http://ganache-container:8546
+    ports:
+      - "4000:4000"
+      - "4001:4001"
+    depends_on:
+      - neo4j
+    networks:
+      - my-network
 
   neo4j:
     build: 

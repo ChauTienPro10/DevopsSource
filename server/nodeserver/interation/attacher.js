@@ -88,14 +88,19 @@ export const createAccount = async () => {
     }
 }
   
-
-getBalance('0xeE2C4D5aAFC4dD96E4B4C84f8A50AaA8683D5e10')
-getBalance('0x68A5346A5DAFBFf2f276FEbcfBc4e16ab755c1Ef')
-
+// getAccounts();
+//  getBalance('0xf4E0C94A07d2F5bc61f99c83210B694f80EaEDf8')
+//  getBalance('0xf4E0C94A07d2F5bc61f99c83210B694f80EaEDf8')
+// sendETH('0xFF28c487c56da7e291185dAA2f9074443502b3b9','0xc777c222f1268c15213620de6b139260c7b97b1540ec5b512053234fb76a95b7'
+//   ,'0xf4E0C94A07d2F5bc61f99c83210B694f80EaEDf8',90
+// )
 
 export default web3
 
 
-// Address: 0x58AAf963Cb390F2Af84bb0bdD1C2e9d9eac41891
-// Private Key: 0xcf8aa349a6e6e2acf65c2355720eca2c158ccb49b0ba9707daf8ce04071dceb8
-//Contract created: 0x02ee427f46242d951dfd5f0a0d24853f1ead57f4
+// createAccount();
+
+// Address: 0xf4E0C94A07d2F5bc61f99c83210B694f80EaEDf8
+// Private Key: 0x3a2c6ec51789293325673a6824fb59f2d00d7d2a66970980629ffd6f3caff631
+//0x45f645953c92ba48fa4f9b24cc66e5003c4ed314
+checkContractExists('0x45f645953c92ba48fa4f9b24cc66e5003c4ed314');
